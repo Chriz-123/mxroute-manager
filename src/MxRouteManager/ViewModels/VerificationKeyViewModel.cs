@@ -1,6 +1,7 @@
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 using MxRouteManager.Models;
 
 namespace MxRouteManager.ViewModels;
@@ -51,12 +52,12 @@ public sealed partial class VerificationKeyViewModel : PageViewModelBase
         try
         {
             Clipboard.SetText(text);
-            StatusMessage = "In die Zwischenablage kopiert.";
+            StatusMessage = Loc.T("Verify_Copied");
             StatusIsError = false;
         }
         catch
         {
-            StatusMessage = "Konnte nicht in die Zwischenablage kopieren.";
+            StatusMessage = Loc.T("Verify_CopyFail");
             StatusIsError = true;
         }
     }

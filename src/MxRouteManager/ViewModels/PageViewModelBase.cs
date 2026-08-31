@@ -45,7 +45,7 @@ public abstract partial class PageViewModelBase : ObservableObject
         }
         catch (ApiException ex)
         {
-            StatusMessage = ex.Field is null ? ex.Message : $"{ex.Message} (Feld: {ex.Field})";
+            StatusMessage = ex.Field is null ? ex.Message : Localization.Loc.T("Common_FieldSuffix", ex.Message, ex.Field);
             StatusIsError = true;
             return false;
         }

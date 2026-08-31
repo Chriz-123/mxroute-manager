@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 using MxRouteManager.Models;
 
 namespace MxRouteManager.ViewModels;
@@ -41,7 +42,7 @@ public sealed partial class EmailAccountsViewModel : PageViewModelBase
 
         var ok = await RunAsync(
             async () => await Api.CreateEmailAccountAsync(CurrentDomain!, input.Username, input.Password, input.Quota, input.Limit),
-            $"Konto '{input.Username}@{CurrentDomain}' angelegt.");
+            Loc.T("Email_Created", $"{input.Username}@{CurrentDomain}"));
         if (ok) await RefreshAsync();
     }
 
@@ -58,7 +59,7 @@ public sealed partial class EmailAccountsViewModel : PageViewModelBase
                 CurrentDomain!, user,
                 string.IsNullOrEmpty(input.Password) ? null : input.Password,
                 input.Quota, input.Limit),
-            $"Konto '{user}@{CurrentDomain}' aktualisiert.");
+            Loc.T("Email_Updated", $"{user}@{CurrentDomain}"));
         if (ok) await RefreshAsync();
     }
 
@@ -67,13 +68,13 @@ public sealed partial class EmailAccountsViewModel : PageViewModelBase
     {
         if (Selected is null || string.IsNullOrEmpty(CurrentDomain)) return;
         string user = Selected.Username;
-        if (!Shell.Dialogs.Confirm("Konto loeschen",
-                $"E-Mail-Konto '{user}@{CurrentDomain}' wirklich loeschen? Alle E-Mails gehen verloren."))
+        if (!Shell.Dialogs.Confirm(Loc.T("Email_DeleteTitle"),
+                Loc.T("Email_DeleteConfirm", $"{user}@{CurrentDomain}")))
             return;
 
         var ok = await RunAsync(
             async () => await Api.DeleteEmailAccountAsync(CurrentDomain!, user),
-            $"Konto '{user}@{CurrentDomain}' geloescht.");
+            Loc.T("Email_Deleted", $"{user}@{CurrentDomain}"));
         if (ok) await RefreshAsync();
     }
 

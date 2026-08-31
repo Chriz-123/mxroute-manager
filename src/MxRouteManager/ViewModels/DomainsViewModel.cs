@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 using MxRouteManager.Models;
 
 namespace MxRouteManager.ViewModels;
@@ -47,13 +48,13 @@ public sealed partial class DomainsViewModel : PageViewModelBase
     private async Task AddDomain()
     {
         var name = Shell.Dialogs.PromptText(
-            "Domain hinzufuegen",
-            "Name der Domain, die dem Konto hinzugefuegt werden soll:",
-            hint: "Hinweis: Vor dem Hinzufuegen muss der Domain-Verifizierungs-TXT-Eintrag gesetzt sein (siehe 'Verifizierungs-Key').");
+            Loc.T("Domains_AddTitle"),
+            Loc.T("Domains_AddPrompt"),
+            hint: Loc.T("Domains_AddHint"));
         if (string.IsNullOrWhiteSpace(name)) return;
 
         var ok = await RunAsync(async () => await Api.CreateDomainAsync(name.Trim()),
-            $"Domain '{name.Trim()}' hinzugefuegt.");
+            Loc.T("Domains_Added", name.Trim()));
         if (ok) await Shell.ReloadDomainsAsync(name.Trim());
         if (ok) { SelectedName = name.Trim(); }
     }
@@ -62,13 +63,13 @@ public sealed partial class DomainsViewModel : PageViewModelBase
     private async Task DeleteDomain()
     {
         if (string.IsNullOrEmpty(SelectedName)) return;
-        if (!Shell.Dialogs.Confirm("Domain loeschen",
-                $"Domain '{SelectedName}' wirklich vom Konto entfernen? Alle zugehoerigen E-Mail-Daten gehen verloren."))
+        if (!Shell.Dialogs.Confirm(Loc.T("Domains_DeleteTitle"),
+                Loc.T("Domains_DeleteConfirm", SelectedName)))
             return;
 
         var name = SelectedName;
         var ok = await RunAsync(async () => await Api.DeleteDomainAsync(name!),
-            $"Domain '{name}' geloescht.");
+            Loc.T("Domains_Deleted", name));
         if (ok) await Shell.ReloadDomainsAsync();
     }
 
@@ -79,7 +80,7 @@ public sealed partial class DomainsViewModel : PageViewModelBase
         var name = SelectedName;
         var enabled = DetailsMailHosting;
         await RunAsync(async () => await Api.SetMailStatusAsync(name!, enabled),
-            $"Mail-Hosting fuer '{name}' {(enabled ? "aktiviert" : "deaktiviert")}.");
+            Loc.T("Domains_MailHostingSet", name!, Loc.T(enabled ? "Common_Enabled" : "Common_Disabled")));
     }
 
     [RelayCommand]

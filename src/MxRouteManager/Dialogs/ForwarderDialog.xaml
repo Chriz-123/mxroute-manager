@@ -1,14 +1,15 @@
 <Window x:Class="MxRouteManager.Dialogs.ForwarderDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Weiterleitung anlegen" Width="480" SizeToContent="Height"
+        xmlns:loc="clr-namespace:MxRouteManager.Localization"
+        Title="{loc:Tr FwdDlg_Title}" Width="480" SizeToContent="Height"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Background="{StaticResource BackgroundBrush}">
     <Border Padding="22">
         <StackPanel>
-            <TextBlock Style="{StaticResource H2}" Text="Weiterleitung anlegen" Margin="0,0,0,16" />
+            <TextBlock Style="{StaticResource H2}" Text="{loc:Tr FwdDlg_Title}" Margin="0,0,0,16" />
 
-            <TextBlock Style="{StaticResource FieldLabel}" Text="Alias (vor dem @)" />
+            <TextBlock Style="{StaticResource FieldLabel}" Text="{loc:Tr FwdDlg_Alias}" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -18,18 +19,17 @@
                 <TextBlock x:Name="DomainSuffix" Grid.Column="1" Style="{StaticResource Muted}" Margin="8,0,0,0" />
             </Grid>
 
-            <TextBlock Style="{StaticResource FieldLabel}" Text="Ziele (eine Adresse pro Zeile)" Margin="0,14,0,4" />
+            <TextBlock Style="{StaticResource FieldLabel}" Text="{loc:Tr FwdDlg_Destinations}" Margin="0,14,0,4" />
             <TextBox x:Name="DestinationsBox" AcceptsReturn="True" TextWrapping="Wrap"
                      Height="110" VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" />
-            <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,6,0,0"
-                       Text="Spezielle Ziele: :blackhole: (verwerfen), :fail: (ablehnen)." />
+            <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,6,0,0" Text="{loc:Tr FwdDlg_Hint}" />
 
             <TextBlock x:Name="ErrorText" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap"
                        Margin="0,12,0,0" Visibility="Collapsed" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                <Button Content="Abbrechen" Style="{StaticResource SecondaryButton}" Width="110" IsCancel="True" Click="Cancel_Click" />
-                <Button Content="Anlegen" Style="{StaticResource PrimaryButton}" Width="110" Margin="10,0,0,0" IsDefault="True" Click="Ok_Click" />
+                <Button Content="{loc:Tr Common_Cancel}" Style="{StaticResource SecondaryButton}" Width="110" IsCancel="True" Click="Cancel_Click" />
+                <Button Content="{loc:Tr Common_Create}" Style="{StaticResource PrimaryButton}" Width="110" Margin="10,0,0,0" IsDefault="True" Click="Ok_Click" />
             </StackPanel>
         </StackPanel>
     </Border>

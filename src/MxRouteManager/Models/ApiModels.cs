@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using MxRouteManager.Localization;
 
 namespace MxRouteManager.Models;
 
@@ -35,10 +36,10 @@ public sealed class EmailAccount
     [JsonPropertyName("sent")] public int Sent { get; set; }
     [JsonPropertyName("suspended")] public bool Suspended { get; set; }
 
-    [JsonIgnore] public string QuotaDisplay => Quota == 0 ? "Unbegrenzt" : $"{Quota} MB";
+    [JsonIgnore] public string QuotaDisplay => Quota == 0 ? Loc.T("Common_UnlimitedCap") : $"{Quota} MB";
     [JsonIgnore] public string UsageDisplay => $"{Usage:0.#} MB";
     [JsonIgnore] public string SentDisplay => $"{Sent} / {Limit}";
-    [JsonIgnore] public string StatusDisplay => Suspended ? "Gesperrt" : "Aktiv";
+    [JsonIgnore] public string StatusDisplay => Suspended ? Loc.T("Common_Suspended") : Loc.T("Common_Active");
 }
 
 public sealed class Forwarder
@@ -56,7 +57,7 @@ public sealed class DomainPointer
     [JsonPropertyName("type")] public string Type { get; set; } = "";
     [JsonPropertyName("target")] public string Target { get; set; } = "";
 
-    [JsonIgnore] public string TypeDisplay => Type == "redirect" ? "Weiterleitung" : "Alias";
+    [JsonIgnore] public string TypeDisplay => Type == "redirect" ? Loc.T("Ptr_TypeRedirect") : Loc.T("Ptr_TypeAlias");
 }
 
 public sealed class CatchAll

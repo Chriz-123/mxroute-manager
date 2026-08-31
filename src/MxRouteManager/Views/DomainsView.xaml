@@ -1,6 +1,7 @@
 <UserControl x:Class="MxRouteManager.Views.DomainsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="clr-namespace:MxRouteManager.Localization"
              Background="{StaticResource BackgroundBrush}">
     <Grid Margin="24">
         <Grid.RowDefinitions>
@@ -11,9 +12,9 @@
 
         <!-- Kopf -->
         <Grid Grid.Row="0" Margin="0,0,0,16">
-            <TextBlock Text="Domains" Style="{StaticResource H1}" HorizontalAlignment="Left" />
+            <TextBlock Text="{loc:Tr Nav_Domains}" Style="{StaticResource H1}" HorizontalAlignment="Left" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="+  Domain hinzufuegen" Style="{StaticResource PrimaryButton}" Command="{Binding AddDomainCommand}" />
+                <Button Content="{loc:Tr Domains_Add}" Style="{StaticResource PrimaryButton}" Command="{Binding AddDomainCommand}" />
                 <Button Content="&#x21BB;" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" Command="{Binding RefreshCommand}" />
             </StackPanel>
         </Grid>
@@ -65,20 +66,20 @@
                     <Separator Margin="0,12" Background="{StaticResource BorderBrush}" />
 
                     <Grid Margin="0,0,0,10">
-                        <TextBlock Text="SSL aktiv" Style="{StaticResource Muted}" HorizontalAlignment="Left" />
+                        <TextBlock Text="{loc:Tr Domains_SslActive}" Style="{StaticResource Muted}" HorizontalAlignment="Left" />
                         <TextBlock HorizontalAlignment="Right" FontWeight="SemiBold"
                                    Text="{Binding Details.SslEnabled}" />
                     </Grid>
 
                     <Grid Margin="0,0,0,16">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <CheckBox Content="Mail-Hosting aktiviert" IsChecked="{Binding DetailsMailHosting}" VerticalAlignment="Center" />
+                            <CheckBox Content="{loc:Tr Domains_MailHosting}" IsChecked="{Binding DetailsMailHosting}" VerticalAlignment="Center" />
                         </StackPanel>
-                        <Button HorizontalAlignment="Right" Content="Uebernehmen" Style="{StaticResource SecondaryButton}"
+                        <Button HorizontalAlignment="Right" Content="{loc:Tr Common_Apply}" Style="{StaticResource SecondaryButton}"
                                 Command="{Binding ApplyMailHostingCommand}" />
                     </Grid>
 
-                    <TextBlock Text="Pointer" Style="{StaticResource FieldLabel}" Margin="0,4,0,6" />
+                    <TextBlock Text="{loc:Tr Domains_Pointers}" Style="{StaticResource FieldLabel}" Margin="0,4,0,6" />
                     <ItemsControl ItemsSource="{Binding Details.Pointers}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -87,7 +88,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <Button Content="Domain loeschen" Style="{StaticResource DangerButton}" Margin="0,20,0,0"
+                    <Button Content="{loc:Tr Domains_Delete}" Style="{StaticResource DangerButton}" Margin="0,20,0,0"
                             HorizontalAlignment="Left" Command="{Binding DeleteDomainCommand}" />
                 </StackPanel>
             </Border>

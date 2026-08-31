@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 using MxRouteManager.Services;
 
 namespace MxRouteManager.ViewModels;
@@ -18,7 +19,7 @@ public sealed partial class ConnectionViewModel : PageViewModelBase
     {
         if (string.IsNullOrWhiteSpace(Server) || string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(ApiKey))
         {
-            StatusMessage = "Bitte Server, Benutzername und API-Key ausfuellen.";
+            StatusMessage = Loc.T("Conn_FillAll");
             StatusIsError = true;
             return;
         }
@@ -48,7 +49,7 @@ public sealed partial class ConnectionViewModel : PageViewModelBase
             Shell.Store.Clear();
         }
 
-        StatusMessage = "Verbindung erfolgreich.";
+        StatusMessage = Loc.T("Conn_Success");
         StatusIsError = false;
         await Shell.OnConnectedAsync();
     }

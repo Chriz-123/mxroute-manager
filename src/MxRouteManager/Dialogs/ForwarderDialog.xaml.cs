@@ -1,4 +1,5 @@
 using System.Windows;
+using MxRouteManager.Localization;
 
 namespace MxRouteManager.Dialogs;
 
@@ -20,7 +21,7 @@ public partial class ForwarderDialog : Window
 
         if (string.IsNullOrWhiteSpace(Alias))
         {
-            ShowError("Bitte einen Alias eingeben.");
+            ShowError(Loc.T("FwdDlg_NeedAlias"));
             return;
         }
 
@@ -31,7 +32,7 @@ public partial class ForwarderDialog : Window
 
         if (dests.Count == 0)
         {
-            ShowError("Bitte mindestens ein Ziel angeben.");
+            ShowError(Loc.T("FwdDlg_NeedDest"));
             return;
         }
 

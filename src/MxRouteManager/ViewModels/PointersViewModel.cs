@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 using MxRouteManager.Models;
 
 namespace MxRouteManager.ViewModels;
@@ -41,7 +42,7 @@ public sealed partial class PointersViewModel : PageViewModelBase
 
         var ok = await RunAsync(
             async () => await Api.CreatePointerAsync(CurrentDomain!, input.Pointer, input.Alias),
-            $"Pointer '{input.Pointer}' angelegt.");
+            Loc.T("Ptr_Created", input.Pointer));
         if (ok) await RefreshAsync();
     }
 
@@ -50,13 +51,13 @@ public sealed partial class PointersViewModel : PageViewModelBase
     {
         if (Selected is null || string.IsNullOrEmpty(CurrentDomain)) return;
         string pointer = Selected.Pointer;
-        if (!Shell.Dialogs.Confirm("Pointer loeschen",
-                $"Domain-Pointer '{pointer}' wirklich loeschen?"))
+        if (!Shell.Dialogs.Confirm(Loc.T("Ptr_DeleteTitle"),
+                Loc.T("Ptr_DeleteConfirm", pointer)))
             return;
 
         var ok = await RunAsync(
             async () => await Api.DeletePointerAsync(CurrentDomain!, pointer),
-            $"Pointer '{pointer}' geloescht.");
+            Loc.T("Ptr_Deleted", pointer));
         if (ok) await RefreshAsync();
     }
 

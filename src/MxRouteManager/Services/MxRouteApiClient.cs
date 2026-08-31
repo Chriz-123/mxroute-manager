@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using MxRouteManager.Localization;
 using MxRouteManager.Models;
 
 namespace MxRouteManager.Services;
@@ -61,11 +62,11 @@ public sealed class MxRouteApiClient
         }
         catch (TaskCanceledException) when (!ct.IsCancellationRequested)
         {
-            throw new ApiException("Zeitueberschreitung bei der Verbindung zum Server.");
+            throw new ApiException(Loc.T("Api_Timeout"));
         }
         catch (HttpRequestException ex)
         {
-            throw new ApiException($"Netzwerkfehler: {ex.Message}");
+            throw new ApiException(Loc.T("Api_Network", ex.Message));
         }
 
         var text = await resp.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
@@ -73,20 +74,20 @@ public sealed class MxRouteApiClient
         if (resp.StatusCode == HttpStatusCode.NoContent || string.IsNullOrWhiteSpace(text))
         {
             if (resp.IsSuccessStatusCode) return null;
-            throw new ApiException($"Fehler {(int)resp.StatusCode}: {resp.ReasonPhrase}", (int)resp.StatusCode);
+            throw new ApiException(Loc.T("Api_HttpError2", (int)resp.StatusCode, resp.ReasonPhrase ?? ""), (int)resp.StatusCode);
         }
 
         JsonDocument doc;
         try { doc = JsonDocument.Parse(text); }
         catch (JsonException)
         {
-            if (resp.IsSuccessStatusCode) throw new ApiException("Ungueltige Serverantwort (kein JSON).");
-            throw new ApiException($"Fehler {(int)resp.StatusCode}: {resp.ReasonPhrase}", (int)resp.StatusCode);
+            if (resp.IsSuccessStatusCode) throw new ApiException(Loc.T("Api_InvalidJson"));
+            throw new ApiException(Loc.T("Api_HttpError2", (int)resp.StatusCode, resp.ReasonPhrase ?? ""), (int)resp.StatusCode);
         }
 
         if (!resp.IsSuccessStatusCode)
         {
-            string message = $"Fehler {(int)resp.StatusCode}";
+            string message = Loc.T("Api_HttpError1", (int)resp.StatusCode);
             string? code = null, field = null;
             if (doc.RootElement.TryGetProperty("error", out var err) && err.ValueKind == JsonValueKind.Object)
             {

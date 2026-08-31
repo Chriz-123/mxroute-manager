@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 using MxRouteManager.Models;
 
 namespace MxRouteManager.ViewModels;
@@ -41,7 +42,7 @@ public sealed partial class ForwardersViewModel : PageViewModelBase
 
         var ok = await RunAsync(
             async () => await Api.CreateForwarderAsync(CurrentDomain!, input.Alias, input.Destinations),
-            $"Weiterleitung '{input.Alias}@{CurrentDomain}' angelegt.");
+            Loc.T("Fwd_Created", $"{input.Alias}@{CurrentDomain}"));
         if (ok) await RefreshAsync();
     }
 
@@ -50,13 +51,13 @@ public sealed partial class ForwardersViewModel : PageViewModelBase
     {
         if (Selected is null || string.IsNullOrEmpty(CurrentDomain)) return;
         string alias = Selected.Alias;
-        if (!Shell.Dialogs.Confirm("Weiterleitung loeschen",
-                $"Weiterleitung '{alias}@{CurrentDomain}' wirklich loeschen?"))
+        if (!Shell.Dialogs.Confirm(Loc.T("Fwd_DeleteTitle"),
+                Loc.T("Fwd_DeleteConfirm", $"{alias}@{CurrentDomain}")))
             return;
 
         var ok = await RunAsync(
             async () => await Api.DeleteForwarderAsync(CurrentDomain!, alias),
-            $"Weiterleitung '{alias}@{CurrentDomain}' geloescht.");
+            Loc.T("Fwd_Deleted", $"{alias}@{CurrentDomain}"));
         if (ok) await RefreshAsync();
     }
 

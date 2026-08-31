@@ -15,6 +15,9 @@ public sealed class AppSettings
     public string ApiKeyProtected { get; set; } = "";
 
     public bool RememberCredentials { get; set; } = true;
+
+    /// <summary>UI-Sprache: "de" oder "en".</summary>
+    public string Language { get; set; } = "de";
 }
 
 /// <summary>

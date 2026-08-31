@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 using MxRouteManager.Models;
 
 namespace MxRouteManager.ViewModels;
@@ -33,8 +34,8 @@ public sealed partial class DashboardViewModel : PageViewModelBase
             Quota = q;
             if (q is not null)
             {
-                string limit = q.TotalLimit == 0 ? "unbegrenzt" : FormatBytes.Humanize(q.TotalLimit);
-                UsageSummary = $"{FormatBytes.Humanize(q.TotalUsed)} von {limit}";
+                string limit = q.TotalLimit == 0 ? Loc.T("Common_Unlimited") : FormatBytes.Humanize(q.TotalLimit);
+                UsageSummary = Loc.T("Dash_UsageSummary", FormatBytes.Humanize(q.TotalUsed), limit);
                 PercentValue = Math.Clamp(q.PercentUsed, 0, 100);
                 PercentDisplay = q.TotalLimit == 0 ? "—" : $"{q.PercentUsed:0.#} %";
 
@@ -49,10 +50,10 @@ public sealed partial class DashboardViewModel : PageViewModelBase
 
                 HasGracePeriod = q.GracePeriod is not null;
                 GracePeriodText = q.GracePeriod is { } g
-                    ? $"Kulanzfrist: noch {g.DaysRemaining} Tage (bis {g.Deadline})."
+                    ? Loc.T("Dash_GracePeriod", g.DaysRemaining, g.Deadline ?? "")
                     : "";
 
-                UpdatedAt = string.IsNullOrEmpty(q.UpdatedAt) ? "" : $"Stand: {q.UpdatedAt}";
+                UpdatedAt = string.IsNullOrEmpty(q.UpdatedAt) ? "" : Loc.T("Dash_UpdatedAt", q.UpdatedAt);
             }
 
             var eq = await Api.GetEmailQuotaAsync();

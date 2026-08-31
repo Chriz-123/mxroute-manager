@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 
 namespace MxRouteManager.ViewModels;
 
@@ -40,24 +41,24 @@ public sealed partial class SpamViewModel : PageViewModelBase
         if (string.IsNullOrEmpty(CurrentDomain)) return;
         if (HighScore < 1 || HighScore > 50)
         {
-            StatusMessage = "Score muss zwischen 1 und 50 liegen.";
+            StatusMessage = Loc.T("Spam_ScoreRange");
             StatusIsError = true;
             return;
         }
         await RunAsync(async () => await Api.UpdateSpamSettingsAsync(CurrentDomain!, HighScore),
-            $"Spam-Score auf {HighScore} gesetzt.");
+            Loc.T("Spam_ScoreSaved", HighScore));
     }
 
     [RelayCommand]
     private async Task AddWhitelist()
     {
         if (string.IsNullOrEmpty(CurrentDomain)) return;
-        var entry = Shell.Dialogs.PromptText("Whitelist-Eintrag", "E-Mail-Adresse oder Muster (Wildcards erlaubt):",
-            hint: "Beispiel: *@vertrauenswuerdig.de");
+        var entry = Shell.Dialogs.PromptText(Loc.T("Spam_WhitelistTitle"), Loc.T("Spam_ListPrompt"),
+            hint: Loc.T("Spam_WhitelistHint"));
         if (string.IsNullOrWhiteSpace(entry)) return;
 
         var ok = await RunAsync(async () => await Api.AddWhitelistAsync(CurrentDomain!, entry.Trim()),
-            "Eintrag zur Whitelist hinzugefuegt.");
+            Loc.T("Spam_WhitelistAdded"));
         if (ok) await RefreshAsync();
     }
 
@@ -67,7 +68,7 @@ public sealed partial class SpamViewModel : PageViewModelBase
         if (SelectedWhitelist is null || string.IsNullOrEmpty(CurrentDomain)) return;
         var entry = SelectedWhitelist;
         var ok = await RunAsync(async () => await Api.RemoveWhitelistAsync(CurrentDomain!, entry),
-            "Whitelist-Eintrag entfernt.");
+            Loc.T("Spam_WhitelistRemoved"));
         if (ok) await RefreshAsync();
     }
 
@@ -75,12 +76,12 @@ public sealed partial class SpamViewModel : PageViewModelBase
     private async Task AddBlacklist()
     {
         if (string.IsNullOrEmpty(CurrentDomain)) return;
-        var entry = Shell.Dialogs.PromptText("Blacklist-Eintrag", "E-Mail-Adresse oder Muster (Wildcards erlaubt):",
-            hint: "Beispiel: *@spam-quelle.de");
+        var entry = Shell.Dialogs.PromptText(Loc.T("Spam_BlacklistTitle"), Loc.T("Spam_ListPrompt"),
+            hint: Loc.T("Spam_BlacklistHint"));
         if (string.IsNullOrWhiteSpace(entry)) return;
 
         var ok = await RunAsync(async () => await Api.AddBlacklistAsync(CurrentDomain!, entry.Trim()),
-            "Eintrag zur Blacklist hinzugefuegt.");
+            Loc.T("Spam_BlacklistAdded"));
         if (ok) await RefreshAsync();
     }
 
@@ -90,7 +91,7 @@ public sealed partial class SpamViewModel : PageViewModelBase
         if (SelectedBlacklist is null || string.IsNullOrEmpty(CurrentDomain)) return;
         var entry = SelectedBlacklist;
         var ok = await RunAsync(async () => await Api.RemoveBlacklistAsync(CurrentDomain!, entry),
-            "Blacklist-Eintrag entfernt.");
+            Loc.T("Spam_BlacklistRemoved"));
         if (ok) await RefreshAsync();
     }
 

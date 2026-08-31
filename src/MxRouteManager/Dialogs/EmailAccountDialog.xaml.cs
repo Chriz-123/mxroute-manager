@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using MxRouteManager.Localization;
 using MxRouteManager.Models;
 
 namespace MxRouteManager.Dialogs;
@@ -21,9 +22,9 @@ public partial class EmailAccountDialog : Window
         InitializeComponent();
         IsEdit = false;
         DomainSuffix.Text = "@" + domain;
-        Title = "E-Mail-Konto anlegen";
-        HeaderText.Text = "E-Mail-Konto anlegen";
-        OkButton.Content = "Anlegen";
+        Title = Loc.T("EmailDlg_CreateTitle");
+        HeaderText.Text = Loc.T("EmailDlg_CreateTitle");
+        OkButton.Content = Loc.T("Common_Create");
         Loaded += (_, _) => UsernameBox.Focus();
     }
 
@@ -33,13 +34,13 @@ public partial class EmailAccountDialog : Window
         InitializeComponent();
         IsEdit = true;
         DomainSuffix.Text = "@" + domain;
-        Title = "E-Mail-Konto bearbeiten";
-        HeaderText.Text = "E-Mail-Konto bearbeiten";
-        OkButton.Content = "Speichern";
+        Title = Loc.T("EmailDlg_EditTitle");
+        HeaderText.Text = Loc.T("EmailDlg_EditTitle");
+        OkButton.Content = Loc.T("Common_Save");
 
         UsernameBox.Text = account.Username;
         UsernameBox.IsEnabled = false;
-        PasswordLabel.Text = "Neues Passwort (leer lassen = unveraendert)";
+        PasswordLabel.Text = Loc.T("EmailDlg_NewPassword");
         QuotaBox.Text = account.Quota.ToString();
         LimitBox.Text = account.Limit.ToString();
         Loaded += (_, _) => PasswordBox.Focus();
@@ -56,7 +57,7 @@ public partial class EmailAccountDialog : Window
 
         if (!IsEdit && string.IsNullOrWhiteSpace(Username))
         {
-            ShowError("Bitte einen Benutzernamen eingeben.");
+            ShowError(Loc.T("EmailDlg_NeedUser"));
             return;
         }
 
@@ -65,19 +66,19 @@ public partial class EmailAccountDialog : Window
         {
             if (!IsValidPassword(Password))
             {
-                ShowError("Passwort erfuellt die Anforderungen nicht (min. 8 Zeichen, Gro\u00df-/Kleinbuchstabe + Ziffer).");
+                ShowError(Loc.T("EmailDlg_BadPassword"));
                 return;
             }
         }
 
         if (!int.TryParse(QuotaBox.Text.Trim(), out var quota) || quota < 0)
         {
-            ShowError("Quota muss eine Zahl >= 0 sein.");
+            ShowError(Loc.T("EmailDlg_BadQuota"));
             return;
         }
         if (!int.TryParse(LimitBox.Text.Trim(), out var limit) || limit < 0 || limit > 9600)
         {
-            ShowError("Tageslimit muss zwischen 0 und 9600 liegen.");
+            ShowError(Loc.T("EmailDlg_BadLimit"));
             return;
         }
 

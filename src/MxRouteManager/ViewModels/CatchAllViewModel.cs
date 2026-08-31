@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MxRouteManager.Localization;
 
 namespace MxRouteManager.ViewModels;
 
@@ -40,14 +41,14 @@ public sealed partial class CatchAllViewModel : PageViewModelBase
         if (string.IsNullOrEmpty(CurrentDomain)) return;
         if (IsAddressType && string.IsNullOrWhiteSpace(Address))
         {
-            StatusMessage = "Bitte eine Zieladresse angeben.";
+            StatusMessage = Loc.T("CatchAll_NeedAddress");
             StatusIsError = true;
             return;
         }
 
         var ok = await RunAsync(
             async () => await Api.SetCatchAllAsync(CurrentDomain!, SelectedType, IsAddressType ? Address.Trim() : null),
-            "Catch-All-Einstellung gespeichert.");
+            Loc.T("CatchAll_Saved"));
         if (ok) await RefreshAsync();
     }
 
