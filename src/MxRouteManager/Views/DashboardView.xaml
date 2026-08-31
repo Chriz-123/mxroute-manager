@@ -1,0 +1,64 @@
+<UserControl x:Class="MxRouteManager.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource BackgroundBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+        <StackPanel>
+            <Grid Margin="0,0,0,18">
+                <TextBlock Text="Dashboard" Style="{StaticResource H1}" HorizontalAlignment="Left" />
+                <Button Content="&#x21BB;  Aktualisieren" Style="{StaticResource SecondaryButton}"
+                        HorizontalAlignment="Right" Command="{Binding RefreshCommand}" />
+            </Grid>
+
+            <!-- Kulanzfrist-Warnung -->
+            <Border Background="#3B2A12" BorderBrush="{StaticResource WarnBrush}" BorderThickness="1" CornerRadius="8"
+                    Padding="14,10" Margin="0,0,0,16"
+                    Visibility="{Binding HasGracePeriod, Converter={StaticResource BoolToVis}}">
+                <TextBlock Text="{Binding GracePeriodText}" Foreground="{StaticResource WarnBrush}" TextWrapping="Wrap" />
+            </Border>
+
+            <!-- Speicher gesamt -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <Grid>
+                        <TextBlock Text="Speichernutzung" Style="{StaticResource H2}" HorizontalAlignment="Left" />
+                        <TextBlock Text="{Binding PercentDisplay}" Style="{StaticResource H2}" HorizontalAlignment="Right"
+                                   Foreground="{StaticResource AccentBrush}" />
+                    </Grid>
+                    <TextBlock Text="{Binding UsageSummary}" Style="{StaticResource Muted}" Margin="0,4,0,12" />
+                    <ProgressBar Height="10" Minimum="0" Maximum="100" Value="{Binding PercentValue, Mode=OneWay}"
+                                 Background="{StaticResource SurfaceAltBrush}" Foreground="{StaticResource AccentBrush}"
+                                 BorderThickness="0" />
+                    <TextBlock Text="{Binding UpdatedAt}" Style="{StaticResource Muted}" Margin="0,10,0,0" />
+                </StackPanel>
+            </Border>
+
+            <!-- Aufschluesselung -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Aufschluesselung" Style="{StaticResource H2}" Margin="0,0,0,12" />
+                    <UniformGrid Columns="5">
+                        <StackPanel Margin="4"><TextBlock Text="E-Mail" Style="{StaticResource Muted}" /><TextBlock Text="{Binding EmailBreakdown}" FontWeight="SemiBold" FontSize="15" /></StackPanel>
+                        <StackPanel Margin="4"><TextBlock Text="Web" Style="{StaticResource Muted}" /><TextBlock Text="{Binding WebBreakdown}" FontWeight="SemiBold" FontSize="15" /></StackPanel>
+                        <StackPanel Margin="4"><TextBlock Text="Datenbanken" Style="{StaticResource Muted}" /><TextBlock Text="{Binding DbBreakdown}" FontWeight="SemiBold" FontSize="15" /></StackPanel>
+                        <StackPanel Margin="4"><TextBlock Text="Backups" Style="{StaticResource Muted}" /><TextBlock Text="{Binding BackupBreakdown}" FontWeight="SemiBold" FontSize="15" /></StackPanel>
+                        <StackPanel Margin="4"><TextBlock Text="Sonstiges" Style="{StaticResource Muted}" /><TextBlock Text="{Binding OtherBreakdown}" FontWeight="SemiBold" FontSize="15" /></StackPanel>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- Nutzung pro Postfach -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Speicher pro Postfach" Style="{StaticResource H2}" Margin="0,0,0,12" />
+                    <DataGrid ItemsSource="{Binding EmailUsage}" Height="260">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="E-Mail-Adresse" Binding="{Binding EmailAddress}" Width="*" />
+                            <DataGridTextColumn Header="Groesse" Binding="{Binding SizeDisplay}" Width="140" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,36 @@
+<Application x:Class="MxRouteManager.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MxRouteManager.ViewModels"
+             xmlns:views="clr-namespace:MxRouteManager.Views"
+             xmlns:conv="clr-namespace:MxRouteManager.Converters"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Konverter -->
+            <conv:BoolToVisibilityConverter x:Key="BoolToVis" />
+            <conv:NotEmptyToVisibilityConverter x:Key="NotEmptyToVis" />
+            <conv:InverseBoolConverter x:Key="InverseBool" />
+            <conv:StringEqualsConverter x:Key="StringEquals" />
+            <conv:BoolToStatusBrushConverter x:Key="BoolToStatusBrush" />
+            <conv:BytesToHumanConverter x:Key="BytesToHuman" />
+            <conv:MultiEqualsConverter x:Key="MultiEquals" />
+
+            <!-- VM -> View Zuordnung -->
+            <DataTemplate DataType="{x:Type vm:ConnectionViewModel}"><views:ConnectionView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DashboardViewModel}"><views:DashboardView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DomainsViewModel}"><views:DomainsView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:EmailAccountsViewModel}"><views:EmailAccountsView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:ForwardersViewModel}"><views:ForwardersView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:PointersViewModel}"><views:PointersView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:SpamViewModel}"><views:SpamView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:CatchAllViewModel}"><views:CatchAllView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DnsViewModel}"><views:DnsView /></DataTemplate>
+            <DataTemplate DataType="{x:Type vm:VerificationKeyViewModel}"><views:VerificationKeyView /></DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

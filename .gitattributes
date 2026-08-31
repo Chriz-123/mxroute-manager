@@ -1,0 +1,11 @@
+# Zeilenenden automatisch normalisieren
+* text=auto
+
+# C#/XAML als Text behandeln
+*.cs   text
+*.xaml text
+*.csproj text
+*.sln  text eol=crlf
+*.md   text
+*.yaml text
+*.manifest text

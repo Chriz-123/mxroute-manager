@@ -1,0 +1,61 @@
+<UserControl x:Class="MxRouteManager.Views.VerificationKeyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource BackgroundBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+        <StackPanel>
+            <Grid Margin="0,0,0,16">
+                <TextBlock Text="Verifizierungs-Key" Style="{StaticResource H1}" HorizontalAlignment="Left" />
+                <Button Content="&#x21BB;  Aktualisieren" Style="{StaticResource SecondaryButton}"
+                        HorizontalAlignment="Right" Command="{Binding RefreshCommand}" />
+            </Grid>
+
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap"
+                               Text="Bevor eine neue Domain zum Konto hinzugefuegt werden kann, muss dieser TXT-Eintrag im DNS der Domain gesetzt werden. Anschliessend 5-15 Minuten auf DNS-Propagierung warten." />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Visibility="{Binding HasKey, Converter={StaticResource BoolToVis}}">
+                <StackPanel>
+                    <TextBlock Text="TXT-Eintrag" Style="{StaticResource H2}" Margin="0,0,0,14" />
+
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="Typ" />
+                    <TextBox Text="{Binding RecordType, Mode=OneWay}" IsReadOnly="True" Margin="0,0,0,12" />
+
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="Name" />
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding RecordName, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" />
+                        <Button Grid.Column="1" Content="Kopieren" Style="{StaticResource SecondaryButton}"
+                                Margin="8,0,0,0" Command="{Binding CopyNameCommand}" />
+                    </Grid>
+
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="Wert" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding RecordValue, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" />
+                        <Button Grid.Column="1" Content="Kopieren" Style="{StaticResource SecondaryButton}"
+                                Margin="8,0,0,0" Command="{Binding CopyValueCommand}" />
+                    </Grid>
+
+                    <TextBlock Text="{Binding Description}" Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,14,0,0" />
+                </StackPanel>
+            </Border>
+
+            <Border Margin="0,14,0,0" CornerRadius="6" Padding="12,10"
+                    Background="{StaticResource SurfaceAltBrush}"
+                    Visibility="{Binding StatusMessage, Converter={StaticResource NotEmptyToVis}}">
+                <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap"
+                           Foreground="{Binding StatusIsError, Converter={StaticResource BoolToStatusBrush}, ConverterParameter=invert}" />
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

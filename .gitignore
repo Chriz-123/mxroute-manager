@@ -1,0 +1,12 @@
+# Build-Ausgaben
+bin/
+obj/
+publish/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+
+# Sonstiges
+*.pdb
