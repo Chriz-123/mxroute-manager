@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Publish win-x64 (framework-dependent)
+        run: dotnet publish src/MxRouteManager/MxRouteManager.csproj -c Release -o publish --self-contained false
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $ver = $tag.TrimStart("v")
+          $exeName = "MxRouteManager-$ver-win-x64.exe"
+          $exePath = Join-Path "publish" $exeName
+          Copy-Item "publish/MxRouteManager.exe" $exePath
+
+          $notes = @"
+          ## MXroute Manager $ver
+
+          Inoffizieller Client – nicht mit MXroute verbunden.
+
+          ### Neu in $ver
+          - Vollständige Mailserver-Liste live von [status.mxroute.com](https://status.mxroute.com) (`/api/status`)
+          - Verbindungsseite: editierbare Auswahlliste (Name + Hostname)
+          - Fallback-Liste, wenn die Statusseite nicht erreichbar ist
+          - Hostname kann weiterhin frei eingegeben werden
+
+          ### Installation
+          1. [.NET 8 Desktop Runtime (x64)](https://dotnet.microsoft.com/download/dotnet/8.0) installieren (oder ``winget install Microsoft.DotNet.DesktopRuntime.8``)
+          2. ``$exeName`` herunterladen und starten
+
+          Die EXE ist framework-abhängig und benötigt die .NET 8 Desktop Runtime.
+
+          ---
+
+          Unofficial client – not affiliated with MXroute.
+
+          ### What's new in $ver
+          - Complete mail-server list loaded live from [status.mxroute.com](https://status.mxroute.com)
+          - Connection screen: editable dropdown (name + hostname)
+          - Built-in fallback list if the status page is unreachable
+          - Hostname can still be typed manually
+
+          **Requires the .NET 8 Desktop Runtime (x64).**
+          "@
+
+          gh release create $tag $exePath --title $tag --notes $notes
