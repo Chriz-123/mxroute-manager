@@ -44,7 +44,7 @@ gespeichert.
 Die App benötigt die drei API-Header aus dem
 [mxpanel](https://panel.mxroute.com/api-keys.php) unter *API Keys*:
 
-- **X-Server** – Mailserver-Hostname (z. B. `eagle.mxlogin.com`)
+- **X-Server** – Mailserver-Hostname (z. B. `eagle.mxlogin.com`). Die App lädt die vollständige Liste live von der [MXroute-Statusseite](https://status.mxroute.com) (`/api/status`) und bietet sie als Auswahlliste an; der Hostname kann weiterhin frei eingegeben werden.
 - **X-Username** – DirectAdmin-Benutzername
 - **X-API-Key** – der erstellte API-Key
 
@@ -136,7 +136,7 @@ via the **DE/EN toggle** in the sidebar – without a restart. Your choice is sa
 The app requires the three API headers found in the
 [mxpanel](https://panel.mxroute.com/api-keys.php) under *API Keys*:
 
-- **X-Server** – mail server hostname (e.g. `eagle.mxlogin.com`)
+- **X-Server** – mail server hostname (e.g. `eagle.mxlogin.com`). The app loads the complete list live from the [MXroute status page](https://status.mxroute.com) (`/api/status`) and offers it as a dropdown; the hostname can still be typed manually.
 - **X-Username** – DirectAdmin username
 - **X-API-Key** – the API key you created
 
@@ -197,7 +197,7 @@ The libraries used are also licensed under MIT.
 src/MxRouteManager/
 ├── Localization/     Loc-Manager, {loc:Tr}-Markup, DE/EN-Katalog
 ├── Models/           API data models (DTOs)
-├── Services/         API client, settings store, dialog service
+├── Services/         API client, status-server list, settings store, dialog service
 ├── ViewModels/       MVVM view models (one per page)
 ├── Views/            XAML views (UserControls)
 ├── Dialogs/          Input dialogs (account, forwarder, pointer, text)

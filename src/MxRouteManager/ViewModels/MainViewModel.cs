@@ -155,6 +155,7 @@ public sealed partial class MainViewModel : ObservableObject
         SelectedDomain = null;
         CurrentNavKey = "connection";
         CurrentPage = Connection;
+        _ = Connection.RefreshAsync();
     }
 
     [RelayCommand]
