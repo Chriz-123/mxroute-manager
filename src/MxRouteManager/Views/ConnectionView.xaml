@@ -12,8 +12,30 @@
                                Text="{loc:Tr Conn_Desc}" />
 
                     <TextBlock Style="{StaticResource FieldLabel}" Text="{loc:Tr Conn_ServerLabel}" />
-                    <TextBox Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Style="{StaticResource Muted}" Text="{loc:Tr Conn_ServerHint}" Margin="0,4,0,0" />
+                    <ComboBox Style="{StaticResource EditableComboBox}"
+                              ItemsSource="{Binding Servers}"
+                              Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}"
+                              IsTextSearchEnabled="True"
+                              TextSearch.TextPath="Hostname"
+                              MaxDropDownHeight="360">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock DockPanel.Dock="Left" Text="{Binding DisplayName}"
+                                               FontWeight="SemiBold" Margin="0,0,14,0" />
+                                    <TextBlock Text="{Binding Hostname}"
+                                               Foreground="{StaticResource MutedTextBrush}"
+                                               FontFamily="Consolas"
+                                               HorizontalAlignment="Right" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap"
+                               Text="{loc:Tr Conn_ServerHint}" Margin="0,4,0,0" />
+                    <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap"
+                               Text="{Binding ServerListNote}" Margin="0,2,0,0"
+                               Visibility="{Binding ServerListNote, Converter={StaticResource NotEmptyToVis}}" />
 
                     <TextBlock Style="{StaticResource FieldLabel}" Text="{loc:Tr Conn_UserLabel}" Margin="0,14,0,4" />
                     <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
