@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!--
+    MXroute Manager app icon.
+    Colors match Themes/Theme.xaml: plate #0F172A, accent #2563EB, glyph #FFFFFF.
+  -->
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="#0F172A"/>
+  <rect x="28" y="28" width="200" height="200" rx="44" fill="#2563EB"/>
+
+  <!-- Envelope body -->
+  <path fill="#FFFFFF"
+        d="M68 102c0-12 10-22 22-22h76c12 0 22 10 22 22v58c0 12-10 22-22 22H90c-12 0-22-10-22-22v-58z"/>
+  <!-- Open flap: accent showing through a V cut, leaving a white chevron -->
+  <path fill="#2563EB" d="M88 80 L128 124 L168 80 Z"/>
+</svg>
