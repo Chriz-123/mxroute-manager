@@ -12,6 +12,7 @@
     <Version>1.1.0</Version>
     <Product>MXroute Manager</Product>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
 
     <!-- Framework-abhaengig: schlanke .exe, benoetigt installierte .NET 8 Desktop Runtime -->
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -23,6 +24,10 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\app.png" />
   </ItemGroup>
 
 </Project>

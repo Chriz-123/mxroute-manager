@@ -5,7 +5,8 @@
         xmlns:loc="clr-namespace:MxRouteManager.Localization"
         Title="MXroute Manager" Height="760" Width="1180"
         MinHeight="600" MinWidth="960"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="Assets/app.png">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,7 +26,10 @@
                 <!-- Logo / Titel -->
                 <StackPanel Grid.Row="0" Margin="20,22,20,18">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#x1F4E7;" FontSize="22" VerticalAlignment="Center" />
+                        <Image Source="Assets/app.png" Width="28" Height="28"
+                               SnapsToDevicePixels="True"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               VerticalAlignment="Center" />
                         <TextBlock Text="MXroute" Style="{StaticResource H1}" FontSize="20" Margin="8,0,0,0" />
                     </StackPanel>
                     <TextBlock Text="{loc:Tr App_Subtitle}" Style="{StaticResource Muted}" Margin="0,2,0,0" />
